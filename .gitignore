@@ -1,0 +1,39 @@
+# Rust
+target/
+
+# Cargo
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+.direnv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Soroban
+.soroban/
+*.wasm
+
+# Test artifacts
+**/test_snapshots/
+
+# Build artifacts
+*.o
+*.so
+*.dylib
+*.dll
+**/target/
+
+# Claude plans
+.claude/
+
+doocs/

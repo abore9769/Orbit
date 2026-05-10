@@ -1,0 +1,28 @@
+name: Space Invaders Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/space_invaders/**'
+      - '!examples/space_invaders/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/space_invaders.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/space_invaders/**'
+      - '!examples/space_invaders/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/space_invaders.yml'
+
+concurrency:
+  group: space-invaders-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Space Invaders Example CI
+      working_directory: examples/space_invaders

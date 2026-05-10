@@ -1,0 +1,28 @@
+name: Geometry Dash Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/geometry_dash/**'
+      - '!examples/geometry_dash/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/geometry_dash.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/geometry_dash/**'
+      - '!examples/geometry_dash/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/geometry_dash.yml'
+
+concurrency:
+  group: geometry-dash-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Geometry Dash Example CI
+      working_directory: examples/geometry_dash

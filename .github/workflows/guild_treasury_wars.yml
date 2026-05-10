@@ -1,0 +1,28 @@
+name: Guild Treasury Wars Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/guild_treasury_wars/**'
+      - '!examples/guild_treasury_wars/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/guild_treasury_wars.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/guild_treasury_wars/**'
+      - '!examples/guild_treasury_wars/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/guild_treasury_wars.yml'
+
+concurrency:
+  group: guild-treasury-wars-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Guild Treasury Wars Example CI
+      working_directory: examples/guild_treasury_wars

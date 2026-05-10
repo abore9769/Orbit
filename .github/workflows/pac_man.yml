@@ -1,0 +1,28 @@
+name: Pac-Man Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/pac_man/**'
+      - '!examples/pac_man/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/pac_man.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/pac_man/**'
+      - '!examples/pac_man/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/pac_man.yml'
+
+concurrency:
+  group: pac-man-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Pac-Man Example CI
+      working_directory: examples/pac_man

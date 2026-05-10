@@ -1,0 +1,28 @@
+name: Trading Card Game Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/trading_card_game/**'
+      - '!examples/trading_card_game/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/trading_card_game.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/trading_card_game/**'
+      - '!examples/trading_card_game/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/trading_card_game.yml'
+
+concurrency:
+  group: trading-card-game-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Trading Card Game Example CI
+      working_directory: examples/trading_card_game

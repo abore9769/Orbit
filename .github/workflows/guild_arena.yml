@@ -1,0 +1,28 @@
+name: Guild Arena Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "examples/guild_arena/**"
+      - "!examples/guild_arena/**/*.md"
+      - ".github/workflows/example_reusable.yml"
+      - ".github/workflows/guild_arena.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "examples/guild_arena/**"
+      - "!examples/guild_arena/**/*.md"
+      - ".github/workflows/example_reusable.yml"
+      - ".github/workflows/guild_arena.yml"
+
+concurrency:
+  group: guild-arena-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Guild Arena Example CI
+      working_directory: examples/guild_arena

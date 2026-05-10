@@ -1,0 +1,28 @@
+name: Tetris Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/tetris/**'
+      - '!examples/tetris/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/tetris.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/tetris/**'
+      - '!examples/tetris/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/tetris.yml'
+
+concurrency:
+  group: tetris-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Tetris Example CI
+      working_directory: examples/tetris

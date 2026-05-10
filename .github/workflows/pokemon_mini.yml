@@ -1,0 +1,28 @@
+name: Pokemon Mini Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/pokemon_mini/**'
+      - '!examples/pokemon_mini/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/pokemon_mini.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/pokemon_mini/**'
+      - '!examples/pokemon_mini/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/pokemon_mini.yml'
+
+concurrency:
+  group: pokemon-mini-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Pokemon Mini Example CI
+      working_directory: examples/pokemon_mini

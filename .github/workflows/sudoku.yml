@@ -1,0 +1,28 @@
+name: Sudoku Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/sudoku/**'
+      - '!examples/sudoku/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/sudoku.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/sudoku/**'
+      - '!examples/sudoku/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/sudoku.yml'
+
+concurrency:
+  group: sudoku-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Sudoku Example CI
+      working_directory: examples/sudoku

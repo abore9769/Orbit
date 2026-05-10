@@ -1,0 +1,28 @@
+name: Cross-Asset Racing League Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/cross_asset_racing_league/**'
+      - '!examples/cross_asset_racing_league/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/cross_asset_racing_league.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/cross_asset_racing_league/**'
+      - '!examples/cross_asset_racing_league/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/cross_asset_racing_league.yml'
+
+concurrency:
+  group: cross-asset-racing-league-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Cross-Asset Racing League Example CI
+      working_directory: examples/cross_asset_racing_league

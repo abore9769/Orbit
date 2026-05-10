@@ -1,0 +1,28 @@
+name: Bomberman Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/bomberman/**'
+      - '!examples/bomberman/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/bomberman.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/bomberman/**'
+      - '!examples/bomberman/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/bomberman.yml'
+
+concurrency:
+  group: bomberman-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Bomberman Example CI
+      working_directory: examples/bomberman

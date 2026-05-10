@@ -1,0 +1,28 @@
+name: Memory Match Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/memory_match/**'
+      - '!examples/memory_match/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/memory-match-ci.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/memory_match/**'
+      - '!examples/memory_match/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/memory-match-ci.yml'
+
+concurrency:
+  group: memory-match-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Memory Match Example CI
+      working_directory: examples/memory_match

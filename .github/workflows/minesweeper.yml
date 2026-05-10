@@ -1,0 +1,28 @@
+name: Minesweeper Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/minesweeper/**'
+      - '!examples/minesweeper/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/minesweeper.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/minesweeper/**'
+      - '!examples/minesweeper/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/minesweeper.yml'
+
+concurrency:
+  group: minesweeper-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Minesweeper Example CI
+      working_directory: examples/minesweeper

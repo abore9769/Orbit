@@ -1,0 +1,28 @@
+name: Angry Birds Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/angry_birds/**'
+      - '!examples/angry_birds/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/angry_birds.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/angry_birds/**'
+      - '!examples/angry_birds/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/angry_birds.yml'
+
+concurrency:
+  group: angry-birds-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Angry Birds Example CI
+      working_directory: examples/angry_birds

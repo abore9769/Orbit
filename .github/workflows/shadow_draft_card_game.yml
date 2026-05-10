@@ -1,0 +1,28 @@
+name: Shadow Draft Card Game Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/shadow_draft_card_game/**'
+      - '!examples/shadow_draft_card_game/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/shadow_draft_card_game.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/shadow_draft_card_game/**'
+      - '!examples/shadow_draft_card_game/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/shadow_draft_card_game.yml'
+
+concurrency:
+  group: shadow-draft-card-game-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Shadow Draft Card Game Example CI
+      working_directory: examples/shadow_draft_card_game

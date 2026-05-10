@@ -1,0 +1,28 @@
+name: Flappy Bird Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/flappy_bird/**'
+      - '!examples/flappy_bird/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/flappy_bird.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/flappy_bird/**'
+      - '!examples/flappy_bird/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/flappy_bird.yml'
+
+concurrency:
+  group: flappy-bird-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Flappy Bird Example CI
+      working_directory: examples/flappy_bird

@@ -1,0 +1,28 @@
+name: Pong Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/pong/**'
+      - '!examples/pong/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/pong.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/pong/**'
+      - '!examples/pong/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/pong.yml'
+
+concurrency:
+  group: pong-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Pong Example CI
+      working_directory: examples/pong

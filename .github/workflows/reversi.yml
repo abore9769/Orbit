@@ -1,0 +1,28 @@
+name: Reversi Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/reversi/**'
+      - '!examples/reversi/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/reversi.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/reversi/**'
+      - '!examples/reversi/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/reversi.yml'
+
+concurrency:
+  group: reversi-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Reversi Example CI
+      working_directory: examples/reversi

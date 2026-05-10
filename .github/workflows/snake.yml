@@ -1,0 +1,28 @@
+name: Snake Example CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/snake/**'
+      - '!examples/snake/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/snake.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/snake/**'
+      - '!examples/snake/**/*.md'
+      - '.github/workflows/example_reusable.yml'
+      - '.github/workflows/snake.yml'
+
+concurrency:
+  group: snake-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/example_reusable.yml
+    with:
+      job_name: Snake Example CI
+      working_directory: examples/snake
